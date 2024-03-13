@@ -8,8 +8,21 @@ function App() {
   const [movesLog, setMovesLog] = useState([]);
   const [activePlayer, setActivePlayer] = useState("X");
 
-  function handleClickedField() {
+  function handleClickedField(rowIndex, colIndex) {
     setActivePlayer((currActive) => (currActive === "X" ? "O" : "X"));
+    setMovesLog((prevTurns) => {
+      let currentPlayer = "X";
+
+      if (prevTurns.length > 0 && prevTurns[0].player === "X")
+        currentPlayer = "O";
+
+      const updatedTurns = [
+        { square: { row: rowIndex, col: colIndex }, player: currentPlayer },
+        ...prevTurns,
+      ];
+
+      return updatedTurns;
+    });
   }
 
   return (
@@ -19,12 +32,9 @@ function App() {
           <Player isActive={activePlayer === "X"} name="Murga" move="X" />
           <Player isActive={activePlayer === "O"} name="Agrum" move="O" />
         </ol>
-        <GameBoard
-          onClickSquare={handleClickedField}
-          activePlayerSymbol={activePlayer}
-        />
+        <GameBoard onClickSquare={handleClickedField} movesLog={movesLog} />
       </div>
-      <Log />
+      <Log movesLog={movesLog} />
     </main>
   );
 }

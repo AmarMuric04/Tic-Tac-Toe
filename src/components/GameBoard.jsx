@@ -1,23 +1,17 @@
-import { useState } from "react";
-
 const initialGameBoard = [
   [null, null, null],
   [null, null, null],
   [null, null, null],
 ];
-export default function GameBoard({ onClickSquare, activePlayerSymbol }) {
-  const [gameBoard, setGameBoard] = useState(initialGameBoard);
+export default function GameBoard({ onClickSquare, movesLog }) {
+  let gameBoard = initialGameBoard;
 
-  function handleClickedField(rowIndex, colIndex) {
-    setGameBoard((prevGameBoard) => {
-      /*prettier-ignore */
-      const newGameBoard = [...prevGameBoard.map(innerArray=> [...innerArray])];
+  for (const turn of movesLog) {
+    const { square, player } = turn;
+    const { row: rowIndex, col: colIndex } = square;
 
-      newGameBoard[rowIndex][colIndex] = activePlayerSymbol;
-      return newGameBoard;
-    });
+    gameBoard[rowIndex][colIndex] = player;
   }
-
   return (
     <ol id="game-board">
       {gameBoard.map((row, rowIndex) => (
@@ -25,7 +19,7 @@ export default function GameBoard({ onClickSquare, activePlayerSymbol }) {
           <ol>
             {row.map((playerSymbol, colIndex) => (
               <li
-                onClick={handleClickedField.bind(null, rowIndex, colIndex)}
+                onClick={onClickSquare.bind(null, rowIndex, colIndex)}
                 key={colIndex}
               >
                 <button>{playerSymbol}</button>
