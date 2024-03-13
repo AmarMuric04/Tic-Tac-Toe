@@ -5,8 +5,7 @@ const initialGameBoard = [
   [null, null, null],
   [null, null, null],
 ];
-
-export default function GameBoard() {
+export default function GameBoard({ onClickSquare, activePlayerSymbol }) {
   const [gameBoard, setGameBoard] = useState(initialGameBoard);
 
   function handleClickedField(rowIndex, colIndex) {
@@ -14,7 +13,7 @@ export default function GameBoard() {
       /*prettier-ignore */
       const newGameBoard = [...prevGameBoard.map(innerArray=> [...innerArray])];
 
-      newGameBoard[rowIndex][colIndex] = "X";
+      newGameBoard[rowIndex][colIndex] = activePlayerSymbol;
       return newGameBoard;
     });
   }
