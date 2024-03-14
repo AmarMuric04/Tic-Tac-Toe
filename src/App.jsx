@@ -51,6 +51,9 @@ function App() {
     )
       winner = firstSquareSymbol;
   }
+
+  const hasDraw = movesLog.length === 9 && !winner;
+
   function handleClickedField(rowIndex, colIndex) {
     setMovesLog((prevTurns) => {
       const currentPlayer = switchPlayer(prevTurns);
@@ -71,7 +74,7 @@ function App() {
           <Player isActive={activePlayer === "X"} name="Murga" move="X" />
           <Player isActive={activePlayer === "O"} name="Agrum" move="O" />
         </ol>
-        {winner && <GameOver winner={winner} />}
+        {(winner || hasDraw) && <GameOver winner={winner} />}
         <GameBoard onClickSquare={handleClickedField} board={gameBoard} />
       </div>
       <Log movesLog={movesLog} />
